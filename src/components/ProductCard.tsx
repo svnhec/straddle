@@ -121,7 +121,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-end justify-between mb-4">
           <div>
             <span className="text-xs font-bold text-blue-400 uppercase tracking-wider block mb-1" style={{ fontFamily: 'var(--font-space-mono), monospace' }}>
-              aujourd&apos;hui
+              DÉPÔT AUJOURD&apos;HUI
             </span>
             <span className="text-3xl font-black text-white" style={{ fontFamily: 'var(--font-archivo), sans-serif' }}>
               {formatPrice(product.price)}
@@ -130,7 +130,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.faceValue && (
             <div className="text-right">
               <span className="text-xs text-zinc-500 block uppercase tracking-wider" style={{ fontFamily: 'var(--font-space-mono), monospace' }}>
-                Le prix en Avril
+                PRIX OFFICIEL À PAYER EN AVRIL
               </span>
               <span className="text-lg text-zinc-400 font-bold" style={{ fontFamily: 'var(--font-space-mono), monospace' }}>
                 {formatPrice(product.faceValue)}

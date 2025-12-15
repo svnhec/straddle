@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 const VALUE_PROPS = [
   { icon: Shield, title: 'Garanti ou Remboursé', desc: 'Si le CH ne fait pas les séries, option annulée.' },
-  { icon: Clock, title: 'Réservez Maintenant', desc: 'Payez le face value uniquement si ça arrive.' },
+  { icon: Clock, title: 'Réservez Maintenant', desc: 'Payez le coût du billet uniquement si le match est confirmé.' },
   { icon: CreditCard, title: 'Paiement Sécurisé', desc: 'Stripe. Apple Pay. Google Pay.' },
 ];
 
@@ -71,8 +71,8 @@ export default async function HomePage() {
           <div className="relative">
             <div className="absolute inset-0 bg-blue-500 rounded-full blur-3xl opacity-20 scale-50" />
             <h1 className="relative text-4xl md:text-6xl font-black mb-6 leading-tight uppercase" style={{ fontFamily: 'var(--font-archivo), sans-serif' }}>
-              Réservez vos billets<br />
-              <span className="text-gradient">de séries</span> au prix coûtant
+              SÉCURISEZ VOS SIÈGES<br />
+              POUR LES <span className="text-gradient">SÉRIES 2026.</span>
             </h1>
           </div>
 
@@ -124,9 +124,9 @@ export default async function HomePage() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { num: '1', title: "RÉSERVEZ AUJOURD'HUI", desc: "Payez un petit montant pour réserver votre droit d'achat au prix coûtant." },
+            { num: '1', title: "RÉSERVEZ AUJOURD'HUI", desc: "Payez un dépôt pour garantir votre accès au prix officiel." },
             { num: '2', title: 'LE CH FAIT LES SÉRIES', desc: "Si les Canadiens se qualifient, on vous notifie. Sinon, l'option expire." },
-            { num: '3', title: 'RÉCLAMEZ VOTRE BILLET', desc: 'Payez le prix face value et recevez votre billet. Économisez des centaines de $.' },
+            { num: '3', title: 'RÉCLAMEZ VOTRE BILLET', desc: "Si le CH se qualifie, vous payez le prix officiel du billet (sans marge revendeur) et vous recevez vos places 24h avant le match." },
           ].map((step) => (
             <div key={step.num} className="text-center p-6 border-2 border-zinc-800 hover:border-blue-500 transition-colors" style={{ borderRadius: 0 }}>
               <div className="w-12 h-12 bg-blue-500/10 border-2 border-blue-500 flex items-center justify-center mx-auto mb-4" style={{ borderRadius: 0 }}>
