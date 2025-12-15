@@ -22,3 +22,4 @@ alter table public.newsletter enable row level security;
 
 create policy "Anyone can signup for waitlist" on public.waitlist for insert with check (true);
 create policy "Anyone can signup for newsletter" on public.newsletter for insert with check (true);
+

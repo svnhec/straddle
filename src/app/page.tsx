@@ -1,7 +1,7 @@
-import { ProductCard } from '@/components/ProductCard';
 import { Shield, Clock, CreditCard, ChevronRight, Ticket } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import { NewsletterForm } from '@/components/NewsletterForm';
+import { InventoryGrid } from '@/components/InventoryGrid';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,7 +27,7 @@ export default async function HomePage() {
     console.error('Error fetching inventory:', error);
   }
 
-  const INVENTORY = (inventoryData || []).map((item) => ({
+  const initialInventory = (inventoryData || []).map((item) => ({
     id: item.id,
     section: item.title,
     desc: item.description,
@@ -83,11 +83,11 @@ export default async function HomePage() {
 
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             <div className="bg-zinc-900 border-2 border-white px-6 py-4 text-center" style={{ borderRadius: 0, fontFamily: 'var(--font-space-mono), monospace' }}>
-              <div className="text-2xl font-black">{INVENTORY.length}</div>
+              <div className="text-2xl font-black">{initialInventory.length}</div>
               <div className="text-xs text-zinc-400 uppercase tracking-wider">Inventaire</div>
             </div>
             <div className="bg-zinc-900 border-2 border-blue-500/50 px-6 py-4 text-center" style={{ borderRadius: 0, fontFamily: 'var(--font-space-mono), monospace' }}>
-              <div className="text-2xl font-black text-blue-400">{INVENTORY.reduce((sum, p) => sum + (p.remaining || 0), 0)}</div>
+              <div className="text-2xl font-black text-blue-400">{initialInventory.reduce((sum, p) => sum + (p.remaining || 0), 0)}</div>
               <div className="text-blue-400/80 text-xs uppercase tracking-wider">Places</div>
             </div>
             <div className="bg-red-500/10 border-2 border-red-500 px-6 py-4 text-center" style={{ borderRadius: 0, fontFamily: 'var(--font-space-mono), monospace' }}>
@@ -112,17 +112,9 @@ export default async function HomePage() {
           Réservez aujourd&apos;hui. Payez le face value si les Canadiens font les séries.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {INVENTORY.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
-        {INVENTORY.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-zinc-500">Chargement des options...</p>
-          </div>
-        )}
+        {/* Realtime Inventory Grid */}
+        <InventoryGrid initialInventory={initialInventory} />
+        
       </section>
 
       {/* HOW IT WORKS */}
@@ -203,3 +195,4 @@ export default async function HomePage() {
     </main>
   );
 }
+

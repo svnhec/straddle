@@ -24,3 +24,4 @@ on conflict (id) do nothing;
 -- RLS
 alter table public.inventory enable row level security;
 create policy "Anyone can view inventory" on public.inventory for select using (true);
+
