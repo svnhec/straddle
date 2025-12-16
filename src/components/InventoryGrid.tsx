@@ -33,10 +33,38 @@ interface InventoryItem {
   stripe_link: string;
 }
 
-export function InventoryGrid({ initialInventory }: { initialInventory: Product[] }) {
+export function InventoryGrid({ initialInventory = [] }: { initialInventory?: Product[] }) {
   const [inventory, setInventory] = useState<Product[]>(initialInventory);
 
   useEffect(() => {
+    // Fetch initial data if not provided (or refresh it)
+    const fetchInventory = async () => {
+      const { data: inventoryData, error } = await supabase
+        .from('inventory')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching inventory:', error);
+        return;
+      }
+
+      const formattedInventory = (inventoryData || []).map((item) => ({
+        id: item.id,
+        section: item.title,
+        desc: item.description,
+        price: item.price,
+        faceValue: item.face_value,
+        status: item.status as 'available' | 'sold_out',
+        tags: item.tags || [],
+        remaining: item.remaining || 0,
+        stripeLink: item.stripe_link,
+      }));
+      setInventory(formattedInventory);
+    };
+
+    fetchInventory();
+
     console.log('Setting up Realtime subscription...');
     
     const channel = supabase
@@ -71,12 +99,7 @@ export function InventoryGrid({ initialInventory }: { initialInventory: Product[
               )
             );
           } else if (payload.eventType === 'INSERT') {
-            // Handle new items if needed (reload or append)
-            // For simplicity in MVP, we might just update existing ones, 
-            // but let's be safe and just update the state if we find it, or ignore.
-            // A full refetch might be safer for INSERTs but UPDATE is what we care about most.
              const newItem = payload.new as InventoryItem;
-             // Add only if not exists
              setInventory((current) => {
                 if (current.find(i => i.id === newItem.id)) return current;
                 return [...current, {
@@ -102,14 +125,14 @@ export function InventoryGrid({ initialInventory }: { initialInventory: Product[
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="space-y-3">
       {inventory.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
       
       {inventory.length === 0 && (
-        <div className="col-span-full text-center py-12">
-          <p className="text-zinc-500">Chargement des options...</p>
+        <div className="text-center py-12">
+          <p className="text-zinc-500 text-sm">Chargement des réservations...</p>
         </div>
       )}
     </div>

@@ -11,20 +11,27 @@ const config: Config = {
     extend: {
       colors: {
         accent: {
-          DEFAULT: '#3b82f6',
-          hover: '#2563eb',
+          DEFAULT: '#10B981', // Emerald 500
+          hover: '#059669', // Emerald 600
         },
-        background: '#09090b',
+        danger: {
+          DEFAULT: '#EF4444', // Red 500 (softer than neon)
+        },
+        background: '#0A0B0F', // Deep Charcoal
+        surface: '#18181B', // Zinc 900
         foreground: '#fafafa',
       },
       fontFamily: {
-        sans: ['var(--font-space-mono)', 'Courier New', 'monospace'],
-        archivo: ['var(--font-archivo)', 'sans-serif'],
-        mono: ['var(--font-space-mono)', 'Courier New', 'monospace'],
+        sans: ['Inter', 'sans-serif'], // Primary font for body
+        archivo: ['var(--font-archivo)', 'sans-serif'], // For Headings
+        mono: ['var(--font-space-mono)', 'Courier New', 'monospace'], // For data/code
+      },
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
       },
     },
   },
   plugins: [],
 };
 export default config;
-

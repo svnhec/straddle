@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import { Archivo_Black, Space_Mono } from 'next/font/google';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/800.css';
 import './globals.css';
+import { PHProvider } from '@/lib/providers/PostHogProvider';
 
 const archivoBlack = Archivo_Black({
   weight: '400',
@@ -18,13 +22,14 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: 'Straddle | Réservez vos billets de séries au prix coûtant',
-  description: 'Achetez des options sur les billets de séries éliminatoires des Canadiens de Montréal. Payez le face value uniquement si le CH fait les séries.',
+  description: 'Réservez vos billets de séries éliminatoires des Canadiens de Montréal. Payez le prix officiel uniquement si le CH fait les séries.',
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
+  themeColor: '#0A0B0F',
 };
 
 export default function RootLayout({
@@ -34,13 +39,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`dark ${archivoBlack.variable} ${spaceMono.variable}`}>
-      <body 
-        className="bg-zinc-950 text-white antialiased"
-        style={{ fontFamily: 'var(--font-space-mono), Courier New, monospace' }}
-      >
-        {children}
-      </body>
+      <PHProvider>
+        <body 
+          className="bg-background text-white antialiased font-sans"
+        >
+          {children}
+        </body>
+      </PHProvider>
     </html>
   );
 }
-

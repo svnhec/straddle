@@ -9,11 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/share": "^8.0.0",
+    "@fontsource/inter": "^5.2.8",
     "@supabase/supabase-js": "^2.87.1",
+    "@visx/visx": "^3.12.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.26",
     "lucide-react": "^0.468.0",
     "next": "^14.2.21",
+    "posthog-js": "^1.306.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -25,4 +36,3 @@
     "typescript": "^5"
   }
 }
-
