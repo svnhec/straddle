@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell, AlarmClock, Ticket } from 'lucide-react';
+import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 type Screen = 'landing' | 'teams' | 'done';
@@ -43,175 +43,168 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
 
 
   if (screen === 'landing') {
+    // Custom blue for the aggressive sporty look (approx Electric Blue)
+    const sportBlue = '#2563EB';
+
     return (
-      <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">
+      <div className="min-h-screen bg-black text-white selection:bg-blue-600/30">
         {/* Navigation / Header */}
-        <nav className="p-5 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5">
-           <h1 className="text-xl font-black tracking-tighter" style={{ fontFamily: 'var(--font-archivo)' }}>STRADDLE</h1>
-           <button 
-             onClick={() => window.location.href = '#reserve'}
-             className="px-4 py-2 border border-blue-600/30 text-blue-500 text-xs font-bold uppercase tracking-wider hover:bg-blue-600/10 transition-colors"
-           >
-             RÉSERVER &gt;
-           </button>
+        <nav className="p-6 flex justify-between items-center max-w-7xl mx-auto">
+           <h1 className="text-2xl font-black tracking-tighter uppercase italic" style={{ fontFamily: 'var(--font-archivo)' }}>STRADDLE</h1>
+           <div className="hidden md:block text-xs font-bold uppercase tracking-wider text-white/50 border border-white/10 px-3 py-1">
+             Saison 2025-2026
+           </div>
         </nav>
 
-        <main className="max-w-xl mx-auto px-5 pb-20 space-y-20 pt-10">
+        <main className="max-w-xl mx-auto px-6 pb-20 space-y-24 pt-10">
             <>
               {/* 1. HERO SECTION */}
               <section className="text-center space-y-8 relative">
-                 {/* Background Texture */}
-                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-[radial-gradient(circle_at_center,rgba(10,30,60,0.8)_0%,rgba(0,0,0,0)_70%)] -z-10 pointer-events-none" />
+                 {/* Background Glow */}
+                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.15)_0%,rgba(0,0,0,0)_60%)] -z-10 pointer-events-none" />
                  
-                 <div className="inline-block border border-blue-500/30 bg-blue-900/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400 mb-4 font-mono">
-                   ● Drop #1 • Live Now
+                 <div className="inline-flex items-center justify-center border border-blue-600 text-blue-500 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                   Drop #1 • Live Now
                  </div>
-                 
-                 <h1 className="text-4xl md:text-6xl font-black uppercase leading-[0.9] tracking-tight mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>
-                   Sécurisez vos sièges<br />pour les <span className="text-blue-500">Séries 2026.</span>
-                 </h1>
-                 
-                 <p className="text-zinc-400 leading-relaxed font-mono text-sm max-w-sm mx-auto">
-                   Oui, croyez le ou non, c'est possible maintenant. <span className="text-white font-bold">Quantités ultra-limitées.</span>
-                 </p>
+                
+                <h1 className="text-5xl md:text-6xl font-black uppercase leading-[0.9] tracking-tighter" style={{ fontFamily: 'var(--font-archivo)' }}>
+                  SÉCURISEZ <span className="text-blue-600">VOS SIÈGES</span><br />
+                  POUR LES SÉRIES 2026.
+                </h1>
+                
+                <p className="text-zinc-400 font-mono text-xs md:text-sm max-w-sm mx-auto leading-relaxed">
+                  Oui, croyez-le ou non, c'est possible maintenant. <span className="text-white font-bold">Quantités ultra-limitées.</span>
+                </p>
 
-                 {/* Stats Grid */}
-                 <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
-                    <div className="aspect-square border border-white flex flex-col items-center justify-center p-2">
-                       <div className="text-3xl font-bold font-mono">50</div>
-                       <div className="text-[10px] uppercase tracking-wider text-zinc-400 font-mono mt-1">Inventaire</div>
-                    </div>
-                    <div className="aspect-square border border-blue-500 flex flex-col items-center justify-center p-2 text-blue-500">
-                       <div className="text-3xl font-bold font-mono">0</div>
-                       <div className="text-[10px] uppercase tracking-wider font-mono mt-1">Places</div>
-                    </div>
-                    <div className="aspect-square border border-red-500 flex flex-col items-center justify-center p-2 text-red-500 relative overflow-hidden">
-                       <div className="absolute inset-0 bg-red-500/10 animate-pulse" />
-                       <div className="text-3xl font-bold font-mono">24H</div>
-                       <div className="text-[10px] uppercase tracking-wider font-mono mt-1 flex items-center gap-1"><AlarmClock className="w-3 h-3" /> Deadline</div>
-                    </div>
-                 </div>
+                {/* Stats Grid inspired by screenshot */}
+                <div className="grid grid-cols-3 gap-0 border border-white/20 max-w-sm mx-auto bg-black">
+                  <div className="p-4 border-r border-white/20 flex flex-col items-center justify-center">
+                    <span className="text-2xl font-bold text-white" style={{ fontFamily: 'var(--font-space-mono)' }}>3</span>
+                    <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold mt-1">Inventaire</span>
+                  </div>
+                  <div className="p-4 border-r border-white/20 flex flex-col items-center justify-center">
+                    <span className="text-2xl font-bold text-blue-500" style={{ fontFamily: 'var(--font-space-mono)' }}>50</span>
+                    <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold mt-1">Places</span>
+                  </div>
+                  <div className="p-4 flex flex-col items-center justify-center bg-white/5 relative overflow-hidden">
+                    <div className="absolute inset-0 border-2 border-red-500 opacity-20 animate-pulse"></div>
+                    <span className="text-2xl font-bold text-red-500" style={{ fontFamily: 'var(--font-space-mono)' }}>24H</span>
+                    <span className="text-[9px] uppercase tracking-wider text-red-500 font-bold mt-1 flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"/> Deadline
+                    </span>
+                  </div>
+                </div>
 
-                 <button
-                   onClick={() => window.location.href = '#options'}
-                   className="w-full py-5 bg-blue-600 text-white font-black uppercase tracking-wider text-lg hover:bg-blue-500 active:scale-[0.98] transition-all"
-                   style={{ fontFamily: 'var(--font-space-mono)' }}
-                 >
-                   <span className="flex items-center justify-center gap-3">
-                     <Ticket className="w-5 h-5" /> VOIR LES OPTIONS
-                   </span>
-                 </button>
+                <button
+                  onClick={() => document.getElementById('product-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-8 py-4 bg-blue-600 text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-500 transition-all border border-blue-400/50 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                  style={{ fontFamily: 'var(--font-space-mono)' }}
+                >
+                  Voir les options
+                </button>
               </section>
 
               {/* 2. PRODUCT SECTION */}
-              <section id="options" className="space-y-8 pt-10">
-                <div className="text-center space-y-2">
-                   <h2 className="text-2xl font-black uppercase" style={{ fontFamily: 'var(--font-archivo)' }}>Choisissez votre zone</h2>
-                   <p className="text-xs text-zinc-500 font-mono uppercase tracking-widest">Réservez aujourd'hui. Payez le face value si les Canadiens font les séries.</p>
+              <section id="product-section" className="space-y-12">
+                <div className="text-center">
+                  <h3 className="text-2xl font-black uppercase tracking-tighter mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>Choisissez Votre Zone</h3>
+                  <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">Réservez aujourd'hui. Payez le prix officiel si le CH fait les séries.</p>
                 </div>
 
-                <div className="bg-black border border-white p-1 relative group hover:border-blue-500 transition-colors">
-                  {/* Sold Out Badge */}
-                  <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3 z-10">
-                    {soldOut ? '× Sold Out' : 'Almost Gone'}
+                <div className="border border-white/20 bg-black relative group hover:border-blue-600/50 transition-colors duration-500">
+                  {/* Badge */}
+                  <div className="absolute top-4 right-4 bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3">
+                    {soldOut ? 'SOLD OUT' : 'ALMOST GONE'}
                   </div>
 
-                  <div className="p-6 space-y-6">
-                    <div>
-                      <h2 className="text-xl font-black uppercase leading-none mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>
-                        PASSE PRIORITAIRE (ROUGE)
-                      </h2>
-                      <p className="text-zinc-400 text-sm">Siège garanti niveau glace (Sec 100-124). Vue imprenable.</p>
-                      
-                      <div className="flex gap-2 mt-4">
-                        <span className="border border-white/20 px-2 py-1 text-[10px] uppercase tracking-wider text-zinc-400">Best Seller</span>
-                        <span className="border border-white/20 px-2 py-1 text-[10px] uppercase tracking-wider text-zinc-400">Niveau 100</span>
+                  <div className="p-8 space-y-8">
+                    <div className="space-y-4">
+                        <div className="w-12 h-12 border border-white/20 flex items-center justify-center text-2xl font-black italic text-zinc-700">
+                          H
+                        </div>
+                        <div>
+                          <h2 className="text-3xl font-black uppercase leading-none mb-2 italic" style={{ fontFamily: 'var(--font-archivo)' }}>
+                            PASSE PRIORITAIRE
+                          </h2>
+                          <p className="text-zinc-400 text-xs font-bold uppercase tracking-wider">Accès Global • Ronde 1 (Domicile)</p>
+                        </div>
+                    </div>
+                    
+                    {/* Tags */}
+                    <div className="flex gap-2">
+                       <span className="border border-white/20 px-2 py-1 text-[10px] uppercase font-bold text-zinc-400">Best Seller</span>
+                       <span className="border border-white/20 px-2 py-1 text-[10px] uppercase font-bold text-zinc-400">Niveau 100/300/400</span>
+                    </div>
+
+                    <div className="h-px w-full bg-white/10 border-t border-dashed border-white/10" />
+
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <div className="text-[10px] font-bold uppercase text-blue-500 mb-1 tracking-wider">Dépôt Aujourd'hui</div>
+                        <div className="text-5xl font-black text-white" style={{ fontFamily: 'var(--font-archivo)' }}>
+                          50<span className="text-2xl align-top">$</span>
+                        </div>
+                      </div>
+                      <div className="text-right pb-1">
+                        <div className="text-[10px] font-bold uppercase text-zinc-600 tracking-wider">Prix Officiel (Avril)</div>
+                        <div className="text-xl font-bold text-zinc-500 line-through decoration-red-500 decoration-2 font-mono">
+                          95 $
+                        </div>
                       </div>
                     </div>
 
-                    <div className="border-t border-dashed border-zinc-800 my-4" />
-
-                    <div className="flex justify-between items-end">
-                       <div>
-                          <div className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-1">Dépôt Aujourd'hui</div>
-                          <div className="text-4xl font-black text-white" style={{ fontFamily: 'var(--font-space-mono)' }}>50 $</div>
-                       </div>
-                       <div className="text-right">
-                          <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-wider mb-1">Prix Officiel à payer en avril</div>
-                          <div className="text-xl font-bold text-zinc-500 font-mono line-through">350 $</div>
-                       </div>
-                    </div>
-
                     {soldOut ? (
-                      <button className="w-full py-4 border border-blue-600 text-blue-500 font-bold uppercase tracking-wider text-sm hover:bg-blue-600/10 transition-colors flex items-center justify-center gap-2">
-                        <Bell className="w-4 h-4" /> M'avertir
-                      </button>
+                      <form onSubmit={handleWaitlistSubmit} className="space-y-0">
+                        <input type="email" placeholder="COURRIEL POUR WAITLIST" className="w-full bg-transparent border border-white/20 p-4 text-white text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-red-600 placeholder:text-zinc-700" required />
+                        <button type="submit" className="w-full py-4 bg-zinc-900 border-x border-b border-white/20 text-zinc-400 font-bold uppercase tracking-widest text-xs hover:bg-zinc-800 transition-colors">
+                          M'avertir
+                        </button>
+                      </form>
                     ) : (
                       <button
                         onClick={handleReserveClick}
-                        className="w-full py-4 bg-blue-600 text-white font-black uppercase tracking-wider text-sm hover:bg-blue-500 transition-colors"
+                        className="w-full py-5 bg-transparent border border-blue-600 text-blue-500 font-black uppercase tracking-widest text-sm hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center gap-3 group-hover:shadow-[0_0_30px_rgba(37,99,235,0.2)]"
                       >
-                        SÉCURISER MA PLACE
+                         <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse group-hover:bg-white" />
+                         Sécuriser ma place
                       </button>
                     )}
                   </div>
                 </div>
-              </section>
 
-              {/* 3. HOW IT WORKS */}
-              <section className="space-y-8">
-                <h3 className="text-xl font-black uppercase tracking-wider text-center" style={{ fontFamily: 'var(--font-archivo)' }}>
-                  Comment ça marche
-                </h3>
-                
-                <div className="space-y-8 relative">
-                   {/* Vertical Line */}
-                   <div className="absolute left-[19px] top-4 bottom-4 w-0.5 bg-zinc-800" />
-                   
-                   {[
-                     { 
-                       title: "Achetez votre Passe Prioritaire", 
-                       desc: "Pour 50 $ (Dépôt). Sécurisez votre place dans la file d'attente.",
-                       icon: "1"
-                     },
-                     { 
-                       title: "Accès Prioritaire", 
-                       desc: "Dès que les billets sortent, vous avez la priorité pour choisir vos sièges à prix réduit.",
-                       icon: "2"
-                     },
-                     { 
-                       title: "Profitez du Match", 
-                       desc: "Payez vos billets et recevez-les 24h avant le match. Économisez des centaines de dollars.",
-                       icon: "3"
-                     }
-                   ].map((step, i) => (
-                     <div key={i} className="relative flex gap-5 items-start">
-                       <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center font-black text-white shrink-0 z-10">
-                         {step.icon}
-                       </div>
-                       <div>
-                         <h4 className="font-bold text-white uppercase mb-1">{step.title}</h4>
-                         <p className="text-sm text-zinc-400 leading-relaxed">{step.desc}</p>
-                       </div>
-                     </div>
-                   ))}
+                {/* Features Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="border border-white/10 p-5 flex items-start gap-4">
+                    <Check className="w-5 h-5 text-blue-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-bold uppercase text-xs text-white mb-1">Priorité Absolue</h4>
+                      <p className="text-[10px] text-zinc-500 uppercase font-mono">Accès 24h avant le grand public.</p>
+                    </div>
+                  </div>
+                  <div className="border border-white/10 p-5 flex items-start gap-4">
+                    <Check className="w-5 h-5 text-blue-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-bold uppercase text-xs text-white mb-1">Prix Garanti</h4>
+                      <p className="text-[10px] text-zinc-500 uppercase font-mono">20-40% sous le prix StubHub.</p>
+                    </div>
+                  </div>
                 </div>
               </section>
 
-              {/* 4. GUARANTEE / TRUST */}
-              <section className="bg-zinc-900/50 border border-white/5 rounded-2xl p-6 flex gap-4 items-start">
-                <Lock className="w-6 h-6 text-accent shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bold text-white uppercase text-sm mb-1">Risque Zéro</h4>
-                  <p className="text-xs text-zinc-400 leading-relaxed">
-                    Si nous ne pouvons pas vous fournir de billets, votre 50 $ est remboursé intégralement et immédiatement. Aucune question posée.
-                  </p>
-                </div>
+              {/* 3. TRUST FOOTER */}
+              <section className="border-t border-white/10 pt-8 pb-8 text-center">
+                 <div className="inline-flex flex-col items-center gap-3">
+                   <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center">
+                     <Lock className="w-4 h-4 text-white" />
+                   </div>
+                   <div>
+                     <h4 className="font-bold uppercase text-xs text-white mb-1 tracking-wider">Garantie Risque Zéro</h4>
+                     <p className="text-[10px] text-zinc-500 uppercase font-mono max-w-xs mx-auto">
+                       Si aucun billet n'est trouvé, votre dépôt de 50$ est remboursé à 100% instantanément.
+                     </p>
+                   </div>
+                 </div>
               </section>
-              
-              <div className="pt-8 text-center text-[10px] text-zinc-600 font-mono">
-                STRADDLE INC. © 2024
-              </div>
             </>
         </main>
       </div>
