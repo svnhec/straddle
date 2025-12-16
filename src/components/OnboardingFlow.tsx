@@ -1,8 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { useState, useEffect } from 'react';
 import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell } from 'lucide-react';
 import { motion } from 'framer-motion';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 type Screen = 'landing' | 'teams' | 'done';
 
@@ -18,25 +24,81 @@ const TEAMS = [
 export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
   const [screen, setScreen] = useState<Screen>('landing');
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
-  const [soldOut, setSoldOut] = useState(false); // Can be toggled for Sold Out state
+  const [soldOut, setSoldOut] = useState(false);
+  const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      // Fetch the first available 'pass_priority' or just the first item
+      const { data, error } = await supabase
+        .from('inventory')
+        .select('*')
+        .limit(1)
+        .single();
+
+      if (data) {
+        setProduct(data);
+        setSoldOut(data.status === 'sold_out');
+      }
+      setLoading(false);
+    };
+
+    fetchProduct();
+    
+    // Realtime subscription for status updates
+    const channel = supabase
+      .channel('landing-page-inventory')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'inventory' }, (payload) => {
+         if (product && payload.new.id === product.id) {
+            setSoldOut(payload.new.status === 'sold_out');
+            setProduct(payload.new);
+         } else if (!product) {
+            // Initial load happened after, or we just got a relevant update
+            setProduct(payload.new);
+            setSoldOut(payload.new.status === 'sold_out');
+         }
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [product]);
   
-  const handleWaitlistSubmit = (e: React.FormEvent) => {
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Vous êtes sur la liste d'attente ! (Demo)");
-  };
+    const input = (e.target as any)[0].value;
+    
+    // Simple check if email or phone
+    // We store both in 'email' column for now or 'contact_info' if we had it, 
+    // but the joinWaitlist function expects email. 
+    // Let's assume the user enters an email or we handle it on backend.
+    // Ideally we should have a 'contact' column.
+    // For now we use the joinWaitlist function from client.ts which inserts into 'waitlist' table.
+    // We'll construct a mock product ID if none fetched, but we should have one.
+    
+    const productId = product?.id || 'unknown';
+    const productName = product?.title || 'Passe Prioritaire';
 
-  const toggleTeam = (id: string) => {
-    setSelectedTeams((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  };
+    const { error } = await supabase
+        .from('waitlist')
+        .insert([{ email: input, product_id: productId, product_name: productName }]);
 
-  const goNext = (next: Screen) => setScreen(next);
+    if (error) {
+       console.error(error);
+       alert("Erreur lors de l'inscription. Réessayez.");
+    } else {
+       alert("Vous êtes sur la liste d'attente !");
+    }
+  };
 
   const handleReserveClick = () => {
-    // Direct redirect to Stripe (or payment link) to avoid friction
-    // TODO: Replace with real "Passe Prioritaire" Stripe Link
-    window.location.href = 'https://buy.stripe.com/test_5kA5mx09a8oF7q87ss'; 
+    if (!product) return;
+    if (product.stripe_link) {
+        window.location.href = product.stripe_link;
+    } else {
+        // Fallback or alert
+        console.warn('No stripe link found');
+    }
   };
 
   // Auth Selection View removed
@@ -130,13 +192,13 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                       <div>
                         <div className="text-[10px] font-bold uppercase text-blue-500 mb-1 tracking-wider">Dépôt Aujourd'hui</div>
                         <div className="text-5xl font-black text-white" style={{ fontFamily: 'var(--font-archivo)' }}>
-                          50<span className="text-2xl align-top">$</span>
+                          {product ? Math.floor(product.price) : 50}<span className="text-2xl align-top">$</span>
                         </div>
                       </div>
                       <div className="text-right pb-1">
                         <div className="text-[10px] font-bold uppercase text-zinc-600 tracking-wider">Prix Officiel (Avril)</div>
                         <div className="text-xl font-bold text-zinc-500 line-through decoration-red-500 decoration-2 font-mono">
-                          95 $
+                          {product ? Math.floor(product.price * 1.9) : 95} $
                         </div>
                       </div>
                     </div>
