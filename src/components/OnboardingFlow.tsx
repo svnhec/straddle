@@ -2,7 +2,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
-import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell } from 'lucide-react';
+import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell, Ticket } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const supabase = createClient(
@@ -133,6 +133,9 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                  {/* Background Glow */}
                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.15)_0%,rgba(0,0,0,0)_60%)] -z-10 pointer-events-none" />
                  
+                 {/* Linear Grid Background Effect */}
+                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10"></div>
+                 
                  <div className="inline-flex items-center justify-center border border-blue-600 text-blue-500 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                    Drop #1 • Live Now
                  </div>
@@ -169,16 +172,16 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                   <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">Réservez aujourd'hui. Payez le prix officiel si le CH fait les séries.</p>
                 </div>
 
-                <div className="border border-white/20 bg-black relative group hover:border-blue-600/50 transition-colors duration-500">
+                <div className="border border-white/20 bg-transparent relative group hover:border-blue-600/50 transition-colors duration-500">
                   {/* Badge */}
                   <div className="absolute top-4 right-4 bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3">
                     {soldOut ? 'SOLD OUT' : 'ALMOST GONE'}
                   </div>
 
-                  <div className="p-8 space-y-8">
+                  <div className="p-8 space-y-6">
                     <div className="space-y-4">
-                        <div className="w-12 h-12 border border-white/20 flex items-center justify-center text-2xl font-black italic text-zinc-700">
-                          H
+                        <div className="w-12 h-12 border border-white/20 flex items-center justify-center text-zinc-700">
+                           <Ticket className="w-6 h-6" strokeWidth={1} />
                         </div>
                         <div>
                           <h2 className="text-3xl font-black uppercase leading-none mb-2 italic" style={{ fontFamily: 'var(--font-archivo)' }}>
@@ -194,7 +197,7 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                        <span className="border border-white/20 px-2 py-1 text-[10px] uppercase font-bold text-zinc-400">Niveau 100/300/400</span>
                     </div>
 
-                    <div className="h-px w-full bg-white/10 border-t border-dashed border-white/10" />
+                    <div className="h-px w-full bg-transparent border-t border-dashed border-zinc-700 my-6" />
 
                     <div className="flex justify-between items-end">
                       <div>
@@ -213,9 +216,9 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
 
                     {soldOut ? (
                       <form onSubmit={handleWaitlistSubmit} className="space-y-0">
-                        <input type="text" placeholder="COURRIEL OU TÉLÉPHONE" className="w-full bg-transparent border border-white/20 p-4 text-white text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-red-600 placeholder:text-zinc-700" required />
-                        <button type="submit" className="w-full py-4 bg-zinc-900 border-x border-b border-white/20 text-zinc-400 font-bold uppercase tracking-widest text-xs hover:bg-zinc-800 transition-colors">
-                          M'avertir
+                        <input type="text" placeholder="COURRIEL OU TÉLÉPHONE" className="w-full bg-transparent border border-white/20 p-4 text-white text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-red-600 placeholder:text-zinc-700 mb-4" required />
+                        <button type="submit" className="w-full py-5 bg-transparent border border-blue-600 text-blue-500 font-bold uppercase tracking-widest text-xs hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center gap-3">
+                          <Bell className="w-4 h-4" /> M'avertir
                         </button>
                       </form>
                     ) : (
