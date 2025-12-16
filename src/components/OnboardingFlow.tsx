@@ -18,6 +18,12 @@ const TEAMS = [
 export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
   const [screen, setScreen] = useState<Screen>('landing');
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
+  const [soldOut, setSoldOut] = useState(false); // Can be toggled for Sold Out state
+  
+  const handleWaitlistSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("Vous êtes sur la liste d'attente ! (Demo)");
+  };
 
   const toggleTeam = (id: string) => {
     setSelectedTeams((prev) =>
@@ -47,7 +53,11 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
         <main className="max-w-md mx-auto px-5 pb-20 space-y-20 pt-10">
             <>
               {/* 1. HERO SECTION */}
-              <section className="text-center space-y-6">
+              <section className="text-center space-y-6 relative">
+                 {/* Background Texture */}
+                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle_at_center,rgba(20,20,30,0.8)_0%,rgba(0,0,0,0)_70%)] -z-10 pointer-events-none" />
+                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+
                 <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-3 py-1 text-xs uppercase tracking-wider rounded-full text-accent">
                   <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
                   <span style={{ fontFamily: 'var(--font-space-mono)' }}>Places Limitées</span>
@@ -84,7 +94,7 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                   
                   {/* Badge */}
                   <div className="bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider py-2 px-4 text-center border-b border-white/5">
-                    Quantité Limitée : 50 places seulement
+                    {soldOut ? 'COMPLET - Join Waitlist' : 'Quantité Limitée : 50 places seulement'}
                   </div>
 
                   <div className="p-6 md:p-8 space-y-6">
@@ -93,7 +103,7 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                         <h2 className="text-2xl font-black uppercase leading-none mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>
                           Passe Prioritaire
                         </h2>
-                        <p className="text-zinc-400 font-mono text-sm">Ronde 1 · Match 1</p>
+                        <p className="text-zinc-400 font-mono text-sm">Accès Global : Ronde 1 (Domicile)</p>
                       </div>
                       <div className="text-right">
                         <div className="text-3xl font-black text-white" style={{ fontFamily: 'var(--font-space-mono)' }}>
@@ -107,7 +117,7 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                     <div className="space-y-3">
                       {[
                         'Accès prioritaire à l\'inventaire (24h avant le public)',
-                        'Prix final garanti SOUS le marché (vs StubHub)',
+                        '💰 Prix Garanti : 20% à 40% moins cher que StubHub',
                         'Choix des zones (Rouges, Desjardins, Gris) selon disponibilité',
                         'Dépôt 100% Remboursable si aucun billet n\'est trouvé'
                       ].map((item, i) => (
@@ -118,12 +128,22 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                       ))}
                     </div>
 
-                    <button
-                      onClick={handleReserveClick}
-                      className="w-full py-3 bg-white text-black font-black uppercase tracking-wider text-sm rounded-xl hover:bg-zinc-200 transition-colors"
-                    >
-                      Ajouter au panier
-                    </button>
+                    {soldOut ? (
+                      <form onSubmit={handleWaitlistSubmit} className="space-y-3">
+                        <div className="text-center text-sm font-bold text-danger uppercase mb-2">Sold Out</div>
+                        <input type="email" placeholder="Votre courriel" className="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl text-white text-sm focus:outline-none focus:border-accent" required />
+                        <button type="submit" className="w-full py-3 bg-zinc-800 text-white font-bold uppercase tracking-wider text-sm rounded-xl hover:bg-zinc-700 transition-colors">
+                          M'avertir si une place se libère
+                        </button>
+                      </form>
+                    ) : (
+                      <button
+                        onClick={handleReserveClick}
+                        className="w-full py-3 bg-white text-black font-black uppercase tracking-wider text-sm rounded-xl hover:bg-zinc-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                      >
+                        SÉCURISER MA PLACE
+                      </button>
+                    )}
                   </div>
                 </div>
               </section>
