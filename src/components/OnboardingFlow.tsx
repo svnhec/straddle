@@ -18,8 +18,6 @@ const TEAMS = [
 export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
   const [screen, setScreen] = useState<Screen>('landing');
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
-  const [authChoice, setAuthChoice] = useState<string | null>(null);
-  const [showAuth, setShowAuth] = useState(false);
 
   const toggleTeam = (id: string) => {
     setSelectedTeams((prev) =>
@@ -30,49 +28,13 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
   const goNext = (next: Screen) => setScreen(next);
 
   const handleReserveClick = () => {
-    setShowAuth(true);
-    // Scroll to top or show modal
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Direct redirect to Stripe (or payment link) to avoid friction
+    // TODO: Replace with real "Passe Prioritaire" Stripe Link
+    window.location.href = 'https://buy.stripe.com/test_5kA5mx09a8oF7q87ss'; 
   };
 
-  // Auth Selection View (replaces Hero content when active)
-  const AuthSelection = () => (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }} 
-      animate={{ opacity: 1, y: 0 }} 
-      className="max-w-md w-full mx-auto p-6 bg-surface border border-zinc-800 shadow-[0_0_50px_rgba(0,255,148,0.1)] mb-20"
-    >
-      <h2 className="text-2xl font-black uppercase text-center mb-6" style={{ fontFamily: 'var(--font-archivo)' }}>
-        Créer un compte
-      </h2>
-      <div className="flex flex-col gap-3">
-        <button
-          className="w-full py-3 bg-white text-black font-black uppercase tracking-wider flex items-center justify-center gap-2"
-          style={{ fontFamily: 'var(--font-space-mono)' }}
-          onClick={() => { setAuthChoice('apple'); goNext('teams'); }}
-        >
-           Continue with Apple
-        </button>
-        <button
-          className="w-full py-3 bg-zinc-900 text-white border border-zinc-800 font-black uppercase tracking-wider flex items-center justify-center gap-2"
-          style={{ fontFamily: 'var(--font-space-mono)' }}
-          onClick={() => { setAuthChoice('google'); goNext('teams'); }}
-        >
-          Continue with Google
-        </button>
-        <button
-          className="w-full py-3 bg-zinc-900 text-white border border-zinc-800 font-black uppercase tracking-wider flex items-center justify-center gap-2"
-          style={{ fontFamily: 'var(--font-space-mono)' }}
-          onClick={() => { setAuthChoice('email'); goNext('teams'); }}
-        >
-          Continue with Email
-        </button>
-      </div>
-      <button onClick={() => setShowAuth(false)} className="w-full text-center mt-4 text-xs text-zinc-500 uppercase font-mono hover:text-white">
-        Retour
-      </button>
-    </motion.div>
-  );
+  // Auth Selection View removed
+
 
   if (screen === 'landing') {
     return (
@@ -80,18 +42,9 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
         {/* Navigation / Header */}
         <nav className="p-5 flex justify-between items-center max-w-7xl mx-auto">
            <h1 className="text-xl font-black tracking-tighter" style={{ fontFamily: 'var(--font-archivo)' }}>STRADDLE</h1>
-           <button 
-             onClick={() => setShowAuth(true)}
-             className="text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-colors"
-           >
-             Connexion
-           </button>
         </nav>
 
         <main className="max-w-md mx-auto px-5 pb-20 space-y-20 pt-10">
-          {showAuth ? (
-            <AuthSelection />
-          ) : (
             <>
               {/* 1. HERO SECTION */}
               <section className="text-center space-y-6">
@@ -230,7 +183,6 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                 STRADDLE INC. © 2024
               </div>
             </>
-          )}
         </main>
       </div>
     );
