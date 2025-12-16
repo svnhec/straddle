@@ -101,6 +101,14 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
     }
   };
 
+  const toggleTeam = (id: string) => {
+    setSelectedTeams((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const goNext = (next: Screen) => setScreen(next);
+
   // Auth Selection View removed
 
 
