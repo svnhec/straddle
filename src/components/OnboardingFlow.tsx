@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell } from 'lucide-react';
+import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell, AlarmClock, Ticket } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 type Screen = 'landing' | 'teams' | 'done';
@@ -44,102 +44,112 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
 
   if (screen === 'landing') {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">
         {/* Navigation / Header */}
-        <nav className="p-5 flex justify-between items-center max-w-7xl mx-auto">
+        <nav className="p-5 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5">
            <h1 className="text-xl font-black tracking-tighter" style={{ fontFamily: 'var(--font-archivo)' }}>STRADDLE</h1>
+           <button 
+             onClick={() => window.location.href = '#reserve'}
+             className="px-4 py-2 border border-blue-600/30 text-blue-500 text-xs font-bold uppercase tracking-wider hover:bg-blue-600/10 transition-colors"
+           >
+             RÉSERVER &gt;
+           </button>
         </nav>
 
-        <main className="max-w-md mx-auto px-5 pb-20 space-y-20 pt-10">
+        <main className="max-w-xl mx-auto px-5 pb-20 space-y-20 pt-10">
             <>
               {/* 1. HERO SECTION */}
-              <section className="text-center space-y-6 relative">
+              <section className="text-center space-y-8 relative">
                  {/* Background Texture */}
-                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle_at_center,rgba(20,20,30,0.8)_0%,rgba(0,0,0,0)_70%)] -z-10 pointer-events-none" />
-                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-[radial-gradient(circle_at_center,rgba(10,30,60,0.8)_0%,rgba(0,0,0,0)_70%)] -z-10 pointer-events-none" />
+                 
+                 <div className="inline-block border border-blue-500/30 bg-blue-900/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400 mb-4 font-mono">
+                   ● Drop #1 • Live Now
+                 </div>
+                 
+                 <h1 className="text-4xl md:text-6xl font-black uppercase leading-[0.9] tracking-tight mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>
+                   Sécurisez vos sièges<br />pour les <span className="text-blue-500">Séries 2026.</span>
+                 </h1>
+                 
+                 <p className="text-zinc-400 leading-relaxed font-mono text-sm max-w-sm mx-auto">
+                   Oui, croyez le ou non, c'est possible maintenant. <span className="text-white font-bold">Quantités ultra-limitées.</span>
+                 </p>
 
-                <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-3 py-1 text-xs uppercase tracking-wider rounded-full text-accent">
-                  <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
-                  <span style={{ fontFamily: 'var(--font-space-mono)' }}>Places Limitées</span>
-                </div>
-                
-                <h1 className="text-4xl md:text-5xl font-black uppercase leading-[0.9] tracking-tight" style={{ fontFamily: 'var(--font-archivo)' }}>
-                  Séries 2026 :<br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500">Sécurisez vos billets</span><br />
-                  avant la foule.
-                </h1>
-                
-                <p className="text-zinc-400 leading-relaxed font-medium">
-                  Ne payez pas les prix fous de la revente. Un dépôt de 50 $ vous garantit un accès prioritaire à notre inventaire exclusif sous le prix du marché.
-                </p>
+                 {/* Stats Grid */}
+                 <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
+                    <div className="aspect-square border border-white flex flex-col items-center justify-center p-2">
+                       <div className="text-3xl font-bold font-mono">50</div>
+                       <div className="text-[10px] uppercase tracking-wider text-zinc-400 font-mono mt-1">Inventaire</div>
+                    </div>
+                    <div className="aspect-square border border-blue-500 flex flex-col items-center justify-center p-2 text-blue-500">
+                       <div className="text-3xl font-bold font-mono">0</div>
+                       <div className="text-[10px] uppercase tracking-wider font-mono mt-1">Places</div>
+                    </div>
+                    <div className="aspect-square border border-red-500 flex flex-col items-center justify-center p-2 text-red-500 relative overflow-hidden">
+                       <div className="absolute inset-0 bg-red-500/10 animate-pulse" />
+                       <div className="text-3xl font-bold font-mono">24H</div>
+                       <div className="text-[10px] uppercase tracking-wider font-mono mt-1 flex items-center gap-1"><AlarmClock className="w-3 h-3" /> Deadline</div>
+                    </div>
+                 </div>
 
-                <button
-                  onClick={handleReserveClick}
-                  className="w-full py-4 bg-accent text-black font-black uppercase tracking-wider text-lg shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all rounded-xl"
-                  style={{ fontFamily: 'var(--font-space-mono)' }}
-                >
-                  Réserver ma Passe (50 $)
-                </button>
-                
-                <div className="flex items-center justify-center gap-2 text-xs text-zinc-500 font-mono">
-                  <Shield className="w-3 h-3 text-accent" />
-                  <span>Dépôt 100% remboursable</span>
-                </div>
+                 <button
+                   onClick={() => window.location.href = '#options'}
+                   className="w-full py-5 bg-blue-600 text-white font-black uppercase tracking-wider text-lg hover:bg-blue-500 active:scale-[0.98] transition-all"
+                   style={{ fontFamily: 'var(--font-space-mono)' }}
+                 >
+                   <span className="flex items-center justify-center gap-3">
+                     <Ticket className="w-5 h-5" /> VOIR LES OPTIONS
+                   </span>
+                 </button>
               </section>
 
               {/* 2. PRODUCT SECTION */}
-              <section>
-                <div className="bg-surface border border-white/10 rounded-3xl overflow-hidden relative group">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-blue-500" />
-                  
-                  {/* Badge */}
-                  <div className="bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider py-2 px-4 text-center border-b border-white/5">
-                    {soldOut ? 'COMPLET - Join Waitlist' : 'Quantité Limitée : 50 places seulement'}
+              <section id="options" className="space-y-8 pt-10">
+                <div className="text-center space-y-2">
+                   <h2 className="text-2xl font-black uppercase" style={{ fontFamily: 'var(--font-archivo)' }}>Choisissez votre zone</h2>
+                   <p className="text-xs text-zinc-500 font-mono uppercase tracking-widest">Réservez aujourd'hui. Payez le face value si les Canadiens font les séries.</p>
+                </div>
+
+                <div className="bg-black border border-white p-1 relative group hover:border-blue-500 transition-colors">
+                  {/* Sold Out Badge */}
+                  <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3 z-10">
+                    {soldOut ? '× Sold Out' : 'Almost Gone'}
                   </div>
 
-                  <div className="p-6 md:p-8 space-y-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h2 className="text-2xl font-black uppercase leading-none mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>
-                          Passe Prioritaire
-                        </h2>
-                        <p className="text-zinc-400 font-mono text-sm">Accès Global : Ronde 1 (Domicile)</p>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-3xl font-black text-white" style={{ fontFamily: 'var(--font-space-mono)' }}>
-                          50,00 $
-                        </div>
-                        <div className="text-xs text-zinc-500 line-through decoration-danger">95,00 $</div>
+                  <div className="p-6 space-y-6">
+                    <div>
+                      <h2 className="text-xl font-black uppercase leading-none mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>
+                        PASSE PRIORITAIRE (ROUGE)
+                      </h2>
+                      <p className="text-zinc-400 text-sm">Siège garanti niveau glace (Sec 100-124). Vue imprenable.</p>
+                      
+                      <div className="flex gap-2 mt-4">
+                        <span className="border border-white/20 px-2 py-1 text-[10px] uppercase tracking-wider text-zinc-400">Best Seller</span>
+                        <span className="border border-white/20 px-2 py-1 text-[10px] uppercase tracking-wider text-zinc-400">Niveau 100</span>
                       </div>
                     </div>
 
-                    {/* Bullet Points */}
-                    <div className="space-y-3">
-                      {[
-                        'Accès prioritaire à l\'inventaire (24h avant le public)',
-                        '💰 Prix Garanti : 20% à 40% moins cher que StubHub',
-                        'Choix des zones (Rouges, Desjardins, Gris) selon disponibilité',
-                        'Dépôt 100% Remboursable si aucun billet n\'est trouvé'
-                      ].map((item, i) => (
-                        <div key={i} className="flex gap-3 items-start text-sm text-zinc-300">
-                          <Check className="w-5 h-5 text-accent shrink-0" />
-                          <span>{item}</span>
-                        </div>
-                      ))}
+                    <div className="border-t border-dashed border-zinc-800 my-4" />
+
+                    <div className="flex justify-between items-end">
+                       <div>
+                          <div className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-1">Dépôt Aujourd'hui</div>
+                          <div className="text-4xl font-black text-white" style={{ fontFamily: 'var(--font-space-mono)' }}>50 $</div>
+                       </div>
+                       <div className="text-right">
+                          <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-wider mb-1">Prix Officiel à payer en avril</div>
+                          <div className="text-xl font-bold text-zinc-500 font-mono line-through">350 $</div>
+                       </div>
                     </div>
 
                     {soldOut ? (
-                      <form onSubmit={handleWaitlistSubmit} className="space-y-3">
-                        <div className="text-center text-sm font-bold text-danger uppercase mb-2">Sold Out</div>
-                        <input type="email" placeholder="Votre courriel" className="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl text-white text-sm focus:outline-none focus:border-accent" required />
-                        <button type="submit" className="w-full py-3 bg-zinc-800 text-white font-bold uppercase tracking-wider text-sm rounded-xl hover:bg-zinc-700 transition-colors">
-                          M'avertir si une place se libère
-                        </button>
-                      </form>
+                      <button className="w-full py-4 border border-blue-600 text-blue-500 font-bold uppercase tracking-wider text-sm hover:bg-blue-600/10 transition-colors flex items-center justify-center gap-2">
+                        <Bell className="w-4 h-4" /> M'avertir
+                      </button>
                     ) : (
                       <button
                         onClick={handleReserveClick}
-                        className="w-full py-3 bg-white text-black font-black uppercase tracking-wider text-sm rounded-xl hover:bg-zinc-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                        className="w-full py-4 bg-blue-600 text-white font-black uppercase tracking-wider text-sm hover:bg-blue-500 transition-colors"
                       >
                         SÉCURISER MA PLACE
                       </button>
