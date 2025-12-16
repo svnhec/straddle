@@ -77,11 +77,7 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                 </p>
 
                 {/* Stats Grid inspired by screenshot */}
-                <div className="grid grid-cols-3 gap-0 border border-white/20 max-w-sm mx-auto bg-black">
-                  <div className="p-4 border-r border-white/20 flex flex-col items-center justify-center">
-                    <span className="text-2xl font-bold text-white" style={{ fontFamily: 'var(--font-space-mono)' }}>3</span>
-                    <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold mt-1">Inventaire</span>
-                  </div>
+                <div className="grid grid-cols-2 gap-0 border border-white/20 max-w-sm mx-auto bg-black">
                   <div className="p-4 border-r border-white/20 flex flex-col items-center justify-center">
                     <span className="text-2xl font-bold text-blue-500" style={{ fontFamily: 'var(--font-space-mono)' }}>50</span>
                     <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold mt-1">Places</span>
@@ -94,14 +90,6 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                     </span>
                   </div>
                 </div>
-
-                <button
-                  onClick={() => document.getElementById('product-section')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="px-8 py-4 bg-blue-600 text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-500 transition-all border border-blue-400/50 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
-                  style={{ fontFamily: 'var(--font-space-mono)' }}
-                >
-                  Voir les options
-                </button>
               </section>
 
               {/* 2. PRODUCT SECTION */}
@@ -155,7 +143,7 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
 
                     {soldOut ? (
                       <form onSubmit={handleWaitlistSubmit} className="space-y-0">
-                        <input type="email" placeholder="COURRIEL POUR WAITLIST" className="w-full bg-transparent border border-white/20 p-4 text-white text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-red-600 placeholder:text-zinc-700" required />
+                        <input type="text" placeholder="COURRIEL OU TÉLÉPHONE" className="w-full bg-transparent border border-white/20 p-4 text-white text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-red-600 placeholder:text-zinc-700" required />
                         <button type="submit" className="w-full py-4 bg-zinc-900 border-x border-b border-white/20 text-zinc-400 font-bold uppercase tracking-widest text-xs hover:bg-zinc-800 transition-colors">
                           M'avertir
                         </button>
