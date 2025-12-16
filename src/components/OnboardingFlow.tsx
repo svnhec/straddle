@@ -2,7 +2,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
-import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell, Ticket } from 'lucide-react';
+import { ChevronRight, Shield, Check, Star, ArrowRight, Lock, Bell, Ticket, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const supabase = createClient(
@@ -253,25 +253,70 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                 </div>
               </section>
 
-              {/* 3. TRUST FOOTER */}
-              <section className="border-t border-white/10 pt-8 pb-8 text-center">
+              {/* 3. TRUST SECTION (New) */}
+              <section className="bg-zinc-900/80 border border-white/5 p-8 md:p-12">
+                <div className="mb-8 text-center">
+                  <h3 className="text-xl font-black uppercase tracking-wider text-white mb-2" style={{ fontFamily: 'var(--font-archivo)' }}>Pourquoi nous faire confiance ?</h3>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-12 h-12 bg-black border border-white/10 rounded-full flex items-center justify-center">
+                       <Shield className="w-5 h-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold uppercase text-xs text-white mb-2 tracking-wider">Garantie Locale</h4>
+                      <p className="text-[11px] text-zinc-400 font-mono leading-relaxed max-w-[200px] mx-auto">
+                        Startup basée à Montréal. Si le CH rate les séries, votre dépôt est remboursé à 100% en 24h.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-12 h-12 bg-black border border-white/10 rounded-full flex items-center justify-center">
+                       <Lock className="w-5 h-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold uppercase text-xs text-white mb-2 tracking-wider">Paiement Sécurisé</h4>
+                      <p className="text-[11px] text-zinc-400 font-mono leading-relaxed max-w-[200px] mx-auto">
+                        Transactions cryptées via Stripe. Nous ne voyons jamais vos données bancaires.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-12 h-12 bg-black border border-white/10 rounded-full flex items-center justify-center">
+                       <MessageCircle className="w-5 h-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold uppercase text-xs text-white mb-2 tracking-wider">Support Réel</h4>
+                      <p className="text-[11px] text-zinc-400 font-mono leading-relaxed max-w-[200px] mx-auto">
+                        Pas de robots. Parlez directement aux fondateurs via le chat ou par courriel.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-12 text-center">
+                   <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">
+                     Fait par des fans, pour des fans. 🔵⚪️🔴
+                   </p>
+                </div>
+              </section>
+
+              {/* 4. FOOTER */}
+              <section className="pt-2 pb-8 text-center opacity-50">
                  <div className="inline-flex flex-col items-center gap-3">
-                   <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center">
-                     <Lock className="w-4 h-4 text-white" />
+                   <div className="w-8 h-8 border border-white/10 rounded-full flex items-center justify-center">
+                     <Lock className="w-3 h-3 text-zinc-500" />
                    </div>
                    <div>
-                     <h4 className="font-bold uppercase text-xs text-white mb-1 tracking-wider">Garantie Risque Zéro</h4>
-                     <p className="text-[10px] text-zinc-500 uppercase font-mono max-w-xs mx-auto">
-                       Si aucun billet n'est trouvé, votre dépôt de 50$ est remboursé à 100% instantanément.
+                     <p className="text-[9px] text-zinc-600 uppercase font-mono max-w-xs mx-auto">
+                       STRADDLE INC. © 2024
                      </p>
                    </div>
                  </div>
               </section>
-            </>
-        </main>
-      </div>
-    );
-  }
 
   // Original "Teams" and "Done" screens preserved for the flow
   return (
