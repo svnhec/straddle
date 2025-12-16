@@ -317,6 +317,11 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                    </div>
                  </div>
               </section>
+            </>
+        </main>
+      </div>
+    );
+  }
 
   // Original "Teams" and "Done" screens preserved for the flow
   return (
