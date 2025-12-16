@@ -207,10 +207,10 @@ export function OnboardingFlow({ onComplete }: { onComplete?: () => void }) {
                           {product ? Math.floor(product.price) : 50}<span className="text-2xl align-top">$</span>
                         </div>
                       </div>
-                      <div className="text-right pb-1">
-                        <div className="text-[10px] font-bold uppercase text-zinc-600 tracking-wider">Prix Officiel (Avril)</div>
-                        <div className="text-xl font-bold text-zinc-500 line-through decoration-red-500 decoration-2 font-mono">
-                          {product ? Math.floor(product.price * 1.9) : 95} $
+                      <div className="text-right pb-1 max-w-[50%]">
+                        <div className="text-[10px] font-bold uppercase text-zinc-600 tracking-wider mb-1">Prix Officiel (Avril)</div>
+                        <div className="text-[10px] font-bold text-zinc-400 leading-tight uppercase font-mono">
+                          Prix à déterminer, mais il sera moins cher qu'ailleurs 100% garanti
                         </div>
                       </div>
                     </div>
